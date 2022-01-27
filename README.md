@@ -39,7 +39,7 @@ psql -h localhost -U postgres -p 5432 -d "pgp-dataset-service" -f data-connect-t
 
 ## Adding a postgres connector to Trino
 
-Create a myconnector.properties file:
+Create a fasp.properties file:
 
 ```
 connector.name=postgresql
@@ -50,7 +50,7 @@ connection-password=pgp-dataset-service
 
 Copy the file into your docker container:
 ```
-docker cp myconnector.properties fasptrino:/etc/trino/catalog
+docker cp fasp.properties fasp-trino:/etc/trino/catalog
 ```
 
 Restart trino:
