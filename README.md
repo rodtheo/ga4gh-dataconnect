@@ -30,7 +30,7 @@ Import some test data:
 gsutil cp gs://dnastack-fasp-hackathon-2022/data-connect-test-db.sql .
 psql -h localhost -U postgres -p 5432 -c "CREATE DATABASE \"pgp-dataset-service\""
 psql -h localhost -U postgres -p 5432 -c "CREATE USER \"pgp-dataset-service\" WITH PASSWORD 'pgp-dataset-service'"
-psql -h localhost -U postgres -p 5432 -c "GRANT ALL ON DATABASE \"pgp-dataset-service\" TO \"pgp-datset-service\""
+psql -h localhost -U postgres -p 5432 -c "GRANT ALL ON DATABASE \"pgp-dataset-service\" TO \"pgp-dataset-service\""
 psql -h localhost -U postgres -p 5432 -c "CREATE USER trinouser3"
 psql -h localhost -U postgres -p 5432 -c "CREATE USER prestouser"
 psql -h localhost -U postgres -p 5432 -c "CREATE USER prestouser3"
