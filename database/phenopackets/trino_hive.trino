@@ -1,0 +1,107 @@
+CREATE SCHEMA IF NOT EXISTS minio.phenopackets
+    WITH (location = 's3a://test-pheno-v2/');
+
+CREATE TABLE IF NOT EXISTS minio.phenopackets.subject (
+    id varchar,
+    subject ROW(
+        id varchar,
+        alternate_ids varchar,
+        date_of_birth varchar,
+        time_at_last_encounter ROW(
+            age ROW (
+                gestational_age varchar,
+                age varchar,
+                age_range varchar,
+                ontology_class varchar,
+                timestamp varchar,
+                interval varchar
+            )
+        ),
+        vital_status varchar,
+        sex varchar,
+        karyotypic_sex varchar,
+        gender varchar,
+        taxonomy ROW(
+            id varchar,
+            label varchar
+        )
+    ),
+    phenotypicFeatures ARRAY(
+        ROW(
+            description varchar,
+            type ROW(
+                id varchar,
+                label varchar
+            ),
+            excluded varchar,
+            severity ROW(
+                id varchar,
+                label varchar
+            ),
+            evidence ARRAY(
+                ROW(
+                    evidence_code ROW(
+                        id varchar,
+                        label varchar
+                        ),
+                    reference ROW(
+                        id varchar,
+                        description varchar
+                    )
+                )
+            )
+        )
+    ),
+    interpretations ARRAY(
+        ROW(
+            id varchar,
+            progressStatus varchar,
+            diagnosis ROW(
+                disease ROW(
+                    id varchar,
+                    label varchar
+                ),
+                genomicInterpretations ARRAY(
+                    ROW(
+                        subjectOrBiosampleId varchar,
+                        interpretationStatus varchar,
+                        variantInterpretation ROW(
+                            acmgPathogenicityClassification varchar,
+                            therapeuticActionability varchar,
+                            variationDescriptor ROW(
+                                vcfRecord ROW (
+                                    genomeAssembly varchar,
+                                    chrom varchar,
+                                    pos varchar,
+                                    ref varchar,
+                                    alt varchar
+                                ),
+                                moleculeContext varchar,
+                                allelicState ROW (
+                                    id varchar,
+                                    label varchar
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    ),
+    diseases ARRAY(
+        ROW(
+            term ROW(
+                    id varchar,
+                    label varchar
+                ),
+            excluded varchar,
+            onset ROW(
+                    id varchar),
+            resolution varchar
+        )
+    )
+)
+WITH (
+    format = 'json',
+    external_location = 's3a://test-pheno-v2/'
+);

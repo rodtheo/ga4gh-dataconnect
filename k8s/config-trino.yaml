@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-trino
+data:
+  file-config-trino: |
+    #single node install config
+    coordinator=true
+    node-scheduler.include-coordinator=true
+    http-server.http.port=8080
+    discovery.uri=http://localhost:8080
+    catalog.management=${ENV:CATALOG_MANAGEMENT}
+    internal-communication.shared-secret="KU2FDjBkY6sot84wtPQsWiB1DmpTiSI21TA5xWIWnn/YWIF0QcWv6kqxhN6TTQAK2EX6mn1lkvEbr6wgjT3qB8aECQIa9CDuD1wjypNTJZdpvzw2N0BSN7ZYp1aheGK/psSqlDi7lvkZp7C+NiGWAZhhWkmf3T+cTFgHV9PZV5K4y6PGuWz0QDhUK+jq1lemVLD0UWcWonC1VZLbk4C6CGc49sfljenCepyWrLVcF+7N9crRSYV05MPvB59Um91TgfoQMaMqYPK8dZ8xLLP5HskWqN9/Kns65UpC+2UsYOefhucpKOqPLPjCHImDk5RrwwLAQJeJ3YnZzOaDWkIuFKEHFFbQsd0mPUMOCIjSF3j7mSiMliNhn4ANe2ukaDDL6hHAl1GnC76PV2Wc4xZNWZvzGzfVtcu9HqNeqE+zKJhDoowdlMWs7JD2LqXBnQcuyKP0vlKtGosHszjav20PhXJU5PvlSCQU71xA9UYZO8ONxlF5jrQAU3FQw10xWOy51ShpaUaq6S8eAvy88Qm/HgMLOxGT7nSdCyo61lkqpJaJ8E9Mlux7p2zBzJ9m+S3/aefXIjD4M7ymzxEFHtJiTGGWuZZi4/1wNbPZll5/XGCFp9hD0DAnwsRlRjwIefE12su9jOJZ6uH7gL2Z5MrzhtD6goH1A6z/BMqYAC0fq68="
+
+  file-config-opa: |
+    access-control.name=opa
+    opa.policy.uri=http://opa:8181/v1/data/trino/allow
+    opa.policy.batched-uri=http://opa:8181/v1/data/trino/batch
+    opa.log-requests=true
+    opa.log-responses=true

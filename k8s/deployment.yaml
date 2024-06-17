@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trino
+  labels:
+    app: trino
+spec:
+  selector:
+    matchLabels:
+      app: trino
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "trino"
+    spec:
+      containers:
+        - name: trino
+          image: "trinodb/trino"
+          volumeMounts:
+          - mountPath: "/etc/trino/config.properties"
+            subPath: config.properties
+            name: config-trino
+            readOnly: true
+          - mountPath: "/etc/trino/opa.properties"
+            subPath: opa.properties
+            name: config-opa
+            readOnly: true
+
+      volumes:
+        - name: config-trino
+          configMap:
+            name: config-trino
+            items:
+            - key: file-config-trino
+              path: "config.properties"
+
+        - name: config-opa
+          configMap:
+            name: config-trino
+            items:
+            - key: file-config-opa
+              path: "opa.properties"

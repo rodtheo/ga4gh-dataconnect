@@ -1,0 +1,25 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: trino
+  labels:
+    app: trino
+spec:
+  containers:
+  - name: trino
+    image: trinodb/trino
+
+# fasp-trino:
+#     image: trinodb/trino
+#     ports:
+#       - 8080:8080
+#     depends_on:
+#       - "fasp-postgres"
+#     expose:
+#       - "8080"
+#     volumes:
+#       - ./config/config.properties:/etc/trino/config.properties
+#       - ./config/opa.properties:/etc/trino/opa.properties
+#       - ./config/password-authenticator.properties:/etc/trino/password-authenticator.properties
+#       - ./config/password.db:/etc/trino/password.db
+  
