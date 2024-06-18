@@ -48,11 +48,12 @@ add-flight-dataset:
 # make sure you have installed phenopackets-tools
 # https://github.com/phenopackets/phenopacket-tools/releases/download/v1.0.0-RC3/phenopacket-tools-cli-1.0.0-RC3-distribution.zip
 # make sure you have python installed
-setup-phenopackets-files-to-minio:
+mc-setup-phenopackets-files-to-minio:
+    unzip database/phenopackets/phenopackets.zip -d database/phenopackets/phenopackets
     mkdir -p database/phenopackets/v2
-    bash database/phenopackets/convert.sh
     mkdir -p database/phenopackets/v2_single_line
-    bash database/phenopackets/transform_to_json_single.sh
+    cd database/phenopackets/ && bash convert.sh
+    cd database/phenopackets/ && bash transform_to_json_single.sh
 
 # make sure you have installed Minio MC client into a PATH directory
 # wget https://dl.min.io/client/mc/release/linux-amd64/mc
@@ -62,11 +63,12 @@ mc-up-phenopackets:
     mc alias set dcminio http://localhost:9000 minio_user minio_password
     mc mb dcminio/test-pheno-v2
     mc cp database/phenopackets/v2_single_line/* dcminio/test-pheno-v2/
-    docker cp database/flight_dataset/minio.properties fasp-hackathon-2022_fasp-trino_1:/etc/trino/catalog
+    docker cp database/flight_dataset/minio.properties ga4gh-dataconnect_fasp-trino_1:/etc/trino/catalog
     docker cp minio_hive/conf/core-site.xml hive-metastore:/opt/apache-hive-metastore-3.0.0-bin/conf
-    docker cp database/phenopackets/trino_hive.trino fasp-hackathon-2022_fasp-trino_1:/home/trino
-    docker exec fasp-hackathon-2022_fasp-trino_1 trino -f /home/trino/trino_hive.trino
+    docker cp database/phenopackets/trino_hive.trino ga4gh-dataconnect_fasp-trino_1:/home/trino
     docker-compose -f dataconnect-compose.yaml restart
+    sleep 30
+    docker exec ga4gh-dataconnect_fasp-trino_1 trino -f /home/trino/trino_hive.trino
 
 mc-down-phenopackets:
     mc rb --force dcminio/test-pheno-v2
