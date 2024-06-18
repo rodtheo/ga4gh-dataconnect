@@ -1,0 +1,3 @@
+[submodule "data-connect-trino"]
+	path = data-connect-trino
+	url = https://github.com/DNAstack/data-connect-trino

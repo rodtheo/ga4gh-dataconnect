@@ -16,7 +16,7 @@ setdown-infra-https:
 
 # configure postgress trino plugin properties
 setup-config:
-    docker cp fasp.properties fasp-hackathon-2022_fasp-trino_1:/etc/trino/catalog
+    docker cp fasp.properties ga4gh-dataconnect_fasp-trino_1:/etc/trino/catalog
     docker-compose -f dataconnect-compose.yaml restart
 
 setup-config-security:
